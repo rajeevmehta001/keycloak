@@ -1,6 +1,6 @@
 {
   "realm": "pipetrak",
-  "auth-server-url": "https://192.168.9.65:8443/",
+  "auth-server-url": "https://keycloak.pipetrakit.com:8443/",
   "ssl-required": "external",
   "resource": "pipetrak-client",
   "public-client": true,
