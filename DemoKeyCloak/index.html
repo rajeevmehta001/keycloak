@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <script src="keycloak.js"></script>
+    <script type="text/javascript">
+        var keycloak = new Keycloak()
+        function initKeycloak() {
+            keycloak.init({ onLoad: 'login-required' }).then(function () {
+                if (queryString("ad") != null) {
+                    setCookie("encryptedEmail", "logmeout", -1);
+                    keycloak.logout({ "redirectUri": window.location.href.split('?')[0] });
+                } else {
+                    alert(keycloak.idTokenParsed.email);
+                }
+            }).catch(function () {
+                alert('failed to initialize');
+            });
+        }
+        function queryString(key) {
+            var re = new RegExp('(?:\\?|&)' + key + '=(.*?)(?=&|$)', 'gi');
+            var r = [], m;
+            while ((m = re.exec(document.location.search)) != null) r.push(m[1]);
+            if (r.length > 0)
+                return r;
+            else
+                return null;
+        }
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+    </script>
+    <title>
+        First Web Page
+    </title>
+</head>
+
+<body onload="initKeycloak()">
+
+    <style>
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            /* Safari */
+            animation: spin 2s linear infinite;
+            margin: auto;
+            margin-top: 200px;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <form id="form1">
+        <div class="loader">
+        </div>
+    </form>
+</body>
+
+</html>
+
+</html>
